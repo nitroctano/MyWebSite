@@ -1,4 +1,9 @@
 {% load static wagtailuserbar %}
+{% load bootstrap4 %}
+{% load menu_tags %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+{% bootstrap_messages %}
 
 <!DOCTYPE html>
 <html class="no-js">
@@ -26,8 +31,26 @@
     </head>
 
     <body class="{% block body_class %}{% endblock %}">
-        {% wagtailuserbar %}
+      {% wagtailuserbar %}
 
+      <nav class="navbar sticky-top navbar-expand-md navbar-light bg-light" role="navigation">
+  <a class="navbar-brand" href="#"><img src="media/images/Screen_Shot_2012-05-18_at_2.23.24_AM.max-165x165.jpg" alt="JosueSalazar.com" class="rounded"></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarToggler">
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      {% main_menu %}
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </div>
+</nav>
+      
+      
         {% block content %}{% endblock %}
 
         {# Global javascript #}
