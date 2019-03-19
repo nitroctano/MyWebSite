@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'home',
     'search',
     'bootstrap4',
+    'blog',
     
     'wagtail.contrib.forms',
     'wagtail.contrib.redirects',
@@ -39,8 +40,8 @@ INSTALLED_APPS = [
     'wagtail.search',
     'wagtail.admin',
     'wagtail.core',
-    'wagtailmenus',
     'wagtail.contrib.modeladmin',
+    'wagtailmenus',
 
     'modelcluster',
     'taggit',
@@ -156,7 +157,7 @@ MEDIA_URL = '/media/'
 
 # Wagtail settings
 
-WAGTAIL_SITE_NAME = "MyWebSite"
+WAGTAIL_SITE_NAME = "JosueSalazar.com"
 
 # Base URL to use when referring to full URLs within the Wagtail admin backend -
 # e.g. in notification emails. Don't include '/admin' or a trailing slash

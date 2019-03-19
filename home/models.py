@@ -1,7 +1,26 @@
 from django.db import models
 
 from wagtail.core.models import Page
-
+from wagtail.core.fields import RichTextField
+from wagtail.admin.edit_handlers import FieldPanel
 
 class HomePage(Page):
-    pass
+    body = RichTextField(blank=True)
+
+    content_panels = Page.content_panels + [
+        FieldPanel('body',classname="full"),
+    ]
+
+class Projects(Page):
+    body = RichTextField(blank=True)
+
+    content_panels = Page.content_panels + [
+        FieldPanel('body',classname="full"),
+    ]
+
+class AboutMe(Page):
+    body = RichTextField(blank=True)
+
+    content_panels = Page.content_panels + [
+        FieldPanel('body',classname="full"),
+    ]
