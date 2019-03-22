@@ -1,10 +1,15 @@
 from django.db import models
+from django import forms
 from modelcluster.fields import ParentalKey
 from wagtail.core.models import Page, Orderable
 from wagtail.core.fields import RichTextField
 from wagtail.admin.edit_handlers import FieldPanel, InlinePanel
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
+from wagtail.snippets.models import register_snippet
+from modelcluster.fields import ParentalKey, ParentalManyToManyField
+from taggit.models import TaggedItemBase, Tag as TaggitTag
+from modelcluster.tags import ClusterTaggableManager
 
 class BlogIndexPage(Page):
     intro = RichTextField(blank=True)
@@ -25,6 +30,8 @@ class BlogPage(Page):
     date = models.DateField("Post date")
     intro = models.CharField(max_length=250)
     body = RichTextField(blank=True)
+    categories = ParentalManyToManyField('blog.BlogCategory', blank=True)
+    tags = ClusterTaggableManager(through='blog.BlogPageTag', blank=True)
 
     def main_image(self):
         gallery_item = self.gallery_images.first()
@@ -42,6 +49,8 @@ class BlogPage(Page):
         FieldPanel('date'),
         FieldPanel('intro'),
         FieldPanel('body',classname="full"),
+        FieldPanel('categories', widget=forms.CheckboxSelectMultiple),
+        FieldPanel('tags'),
         InlinePanel('gallery_images', label="Gallery images"),
     ]
 
@@ -56,3 +65,27 @@ class BlogPageGalleryImage(Orderable):
         FieldPanel('caption'),
     ]
 
+@register_snippet
+class BlogCategory(models.Model):
+    name = models.CharField(max_length=255)
+    slug = models.SlugField(unique=True, max_length=80)
+
+    panels = [
+        FieldPanel('name'),
+        FieldPanel('slug'),
+    ]
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name ="Category"
+        verbose_name_plural ="Categories"
+
+class BlogPageTag(TaggedItemBase):
+        content_object = ParentalKey('BlogPage', related_name='post_tags')
+
+        @register_snippet
+        class Tag(TaggitTag):
+                class Meta:
+                    proxy = True
